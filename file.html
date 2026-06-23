@@ -6,10 +6,10 @@
     <title>Bungoma County School Management System</title>
     <style>
         :root {
-            --primary-color: #0f4c81;
-            --secondary-color: #1ba0e2;
-            --accent-color: #f5a623;
-            --bg-color: #f4f6f9;
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --accent-color: #8bc34a;
+            --bg-color: #f1f8e9;
             --text-color: #333;
             --sidebar-width: 260px;
         }
@@ -206,19 +206,21 @@
 <body>
 
     <aside>
-        <h2>Bungoma SMS</h2>
+        <h2>JOSEPH SMS</h2>
         <ul>
             <li><a href="#dashboard" class="active">Dashboard</a></li>
             <li><a href="#students">Students</a></li>
             <li><a href="#teachers">Teachers</a></li>
             <li><a href="#finance">Financials & Fees</a></li>
+            <li><a href="logout.html">Logout</a></li>
         </ul>
     </aside>
 
     <main>
         <header>
-            <h1>Bungoma County School Management System</h1>
+            <h1>JOSEPH SCHOOL MANAGEMENT SYSTEM</h1>
             <p>Empowering Education Management & Governance</p>
+            <p id="roleMessage" style="margin-top: 8px; font-weight: 600; color: var(--primary-color);"></p>
         </header>
 
         <div id="dashboard" class="dashboard-grid">
@@ -343,9 +345,19 @@
                         <td>10,000.00</td>
                     </tr>
                 </tbody>
-            </table>
+            </otable>
         </section>
     </main>
 
-</body>
-</html>
+    <script>
+        if (localStorage.getItem('josephLoggedIn') !== 'true') {
+            window.location.replace('login.html');
+        } else {
+            const role = localStorage.getItem('josephRole') || 'user';
+            const roleMessage = document.getElementById('roleMessage');
+
+            if (roleMessage) {
+                roleMessage.textContent = role === 'admin' ? 'Signed in as Admin' : 'Signed in as User';
+            }
+        }
+    </script>
