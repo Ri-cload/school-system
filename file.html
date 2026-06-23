@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bungoma County School Management System</title>
+    <style>
+        :root {
+            --primary-color: #0f4c81;
+            --secondary-color: #1ba0e2;
+            --accent-color: #f5a623;
+            --bg-color: #f4f6f9;
+            --text-color: #333;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--primary-color);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        aside h2 {
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        aside ul {
+            list-style: none;
+        }
+
+        aside ul li {
+            margin-bottom: 15px;
+        }
+
+        aside ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        aside ul li a:hover, aside ul li a.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        /* Main Content Area */
+        main {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 40px;
+        }
+
+        header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+        }
+
+        header p {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Dashboard Summary Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .card.teachers { border-left-color: var(--secondary-color); }
+        .card.fees { border-left-color: var(--accent-color); }
+
+        .card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #222;
+        }
+
+        /* Section Styling */
+        section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        section h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        /* Data Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .form-inline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto;
+            gap: 15px;
+            align-items: flex-end;
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <h2>Bungoma SMS</h2>
+        <ul>
+            <li><a href="#dashboard" class="active">Dashboard</a></li>
+            <li><a href="#students">Students</a></li>
+            <li><a href="#teachers">Teachers</a></li>
+            <li><a href="#finance">Financials & Fees</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <header>
+            <h1>Bungoma County School Management System</h1>
+            <p>Empowering Education Management & Governance</p>
+        </header>
+
+        <div id="dashboard" class="dashboard-grid">
+            <div class="card">
+                <h3>Total Students</h3>
+                <p>1,240</p>
+            </div>
+            <div class="card teachers">
+                <h3>Total Teachers</h3>
+                <p>48</p>
+            </div>
+            <div class="card fees">
+                <h3>Fees Collection Status</h3>
+                <p>78%</p>
+            </div>
+        </div>
+
+        <section id="students">
+            <h2>Student Registry</h2>
+            
+            <h3>Register New Student</h3>
+            <form class="form-inline" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label for="student-name">Full Name</label>
+                    <input type="text" id="student-name" placeholder="e.g., John Wafula" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-class">Class/Form</label>
+                    <select id="student-class">
+                        <option>Form 1</option>
+                        <option>Form 2</option>
+                        <option>Form 3</option>
+                        <option>Form 4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-id">Admission Number</label>
+                    <input type="text" id="student-id" placeholder="e.g., 4532" required>
+                </div>
+                <button type="submit">Add Student</button>
+            </form>
+
+            <table style="margin-top: 30px;">
+                <thead>
+                    <tr>
+                        <th>Adm Number</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>4102</td>
+                        <td>Emmanuel Simiyu</td>
+                        <td>Form 4 North</td>
+                        <td>Active</td>
+                    </tr>
+                    <tr>
+                        <td>4215</td>
+                        <td>Mercy Nafula</td>
+                        <td>Form 3 South</td>
+                        <td>Active</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="teachers">
+            <h2>Staff & Faculty Directory</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>TSC Number</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Subjects</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TSC-789452</td>
+                        <td>Mr. David Juma</td>
+                        <td>Mathematics</td>
+                        <td>Math / Physics</td>
+                    </tr>
+                    <tr>
+                        <td>TSC-654123</td>
+                        <td>Mrs. Agnes Nasimiyu</td>
+                        <td>Languages</td>
+                        <td>English / Literature</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="finance">
+            <h2>Fee Balances & Financial Overview</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Adm Number</th>
+                        <th>Student Name</th>
+                        <th>Term Invoiced</th>
+                        <th>Amount Paid (KES)</th>
+                        <th>Balance Due (KES)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>4102</td>
+                        <td>Emmanuel Simiyu</td>
+                        <td>Term 2</td>
+                        <td>25,000</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr>
+                        <td>4215</td>
+                        <td>Mercy Nafula</td>
+                        <td>Term 2</td>
+                        <td>15,000</td>
+                        <td>10,000.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</body>
+</html>
