@@ -242,7 +242,7 @@
             <h2>Student Registry</h2>
             
             <h3>Register New Student</h3>
-            <form class="form-inline" onsubmit="event.preventDefault();">
+            <form class="form-inline" onsubmit="addStudent(event)">
                 <div class="form-group">
                     <label for="student-name">Full Name</label>
                     <input type="text" id="student-name" placeholder="e.g., John Wafula" required>
@@ -254,6 +254,16 @@
                         <option>Form 2</option>
                         <option>Form 3</option>
                         <option>Form 4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-stream">Stream</label>
+                    <select id="student-stream">
+                        <option>West</option>
+                        <option>East</option>
+                        <option>South</option>
+                        <option>North</option>
+                        <option>Central</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -269,6 +279,7 @@
                         <th>Adm Number</th>
                         <th>Name</th>
                         <th>Class</th>
+                        <th>Stream</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -277,12 +288,14 @@
                         <td>4102</td>
                         <td>Emmanuel Simiyu</td>
                         <td>Form 4 North</td>
+                        <td>Stream A</td>
                         <td>Active</td>
                     </tr>
                     <tr>
                         <td>4215</td>
                         <td>Mercy Nafula</td>
                         <td>Form 3 South</td>
+                        <td>Stream B</td>
                         <td>Active</td>
                     </tr>
                 </tbody>
@@ -345,7 +358,7 @@
                         <td>10,000.00</td>
                     </tr>
                 </tbody>
-            </otable>
+            </table>
         </section>
     </main>
 
@@ -359,5 +372,42 @@
             if (roleMessage) {
                 roleMessage.textContent = role === 'admin' ? 'Signed in as Admin' : 'Signed in as User';
             }
+        }
+
+        function addStudent(event) {
+            event.preventDefault();
+
+            const nameInput = document.getElementById('student-name');
+            const classInput = document.getElementById('student-class');
+            const streamInput = document.getElementById('student-stream');
+            const idInput = document.getElementById('student-id');
+            const studentsTableBody = document.querySelector('#students tbody');
+
+            const name = nameInput.value.trim();
+            const studentClass = classInput.value;
+            const stream = streamInput.value;
+            const admissionNumber = idInput.value.trim();
+
+            if (!name || !admissionNumber) {
+                alert('Please enter both student name and admission number.');
+                return;
+            }
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${admissionNumber}</td>
+                <td>${name}</td>
+                <td>${studentClass}</td>
+                <td>${stream}</td>
+                <td>Active</td>
+            `;
+
+            studentsTableBody.appendChild(newRow);
+            nameInput.value = '';
+            idInput.value = '';
+            classInput.selectedIndex = 0;
+            streamInput.selectedIndex = 0;
+
+            nameInput.focus();
         }
     </script>

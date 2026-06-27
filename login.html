@@ -115,6 +115,20 @@
             text-align: center;
         }
 
+        .toggle-link {
+            margin-top: 12px;
+            text-align: center;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .signup-section {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #e0e0e0;
+        }
+
         .back-link {
             display: inline-block;
             margin-top: 18px;
@@ -128,25 +142,32 @@
     <div class="login-card">
         <h1>JOSEPH SCHOOL MANAGEMENT SYSTEM</h1>
         <p class="subtitle">Sign in to access the school dashboard</p>
-        <div class="role-note">Use your email and phone number as the password.</div>
+        <div class="role-note">Use your email or full name to sign in. No password is required.</div>
 
         <form id="loginForm">
             <div class="form-group">
-                <label for="username">Email</label>
-                <input type="email" id="username" placeholder="Enter email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Phone Number</label>
-                <input type="text" id="password" placeholder="Enter phone number" required>
+                <label for="username">Email or Name</label>
+                <input type="text" id="username" placeholder="Enter email or name" required>
             </div>
 
             <button id="loginButton" type="submit">Log In</button>
             <p id="formMessage" class="status-message"></p>
         </form>
 
-        <div class="extra-links">
-            <a href="#">Forgot password?</a>
+        <div class="signup-section">
+            <p class="toggle-link" id="toggleSignup">Create an account</p>
+            <form id="signupForm" style="display:none; margin-top: 12px;">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter new email" required>
+                </div>
+                <button type="submit">Create Account</button>
+                <p id="signupMessage" class="status-message"></p>
+            </form>
         </div>
 
         <a class="back-link" href="file.html">← Back to Dashboard</a>
@@ -154,31 +175,80 @@
 
     <script>
         const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
         const username = document.getElementById('username');
-        const password = document.getElementById('password');
         const formMessage = document.getElementById('formMessage');
+        const signupMessage = document.getElementById('signupMessage');
+        const toggleSignup = document.getElementById('toggleSignup');
+        const signupName = document.getElementById('signupName');
+        const signupEmail = document.getElementById('signupEmail');
+
+        const existingUsers = JSON.parse(localStorage.getItem('josephUsers') || '[]');
+
+        toggleSignup.addEventListener('click', function () {
+            signupForm.style.display = signupForm.style.display === 'none' ? 'block' : 'none';
+        });
 
         loginForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            const email = username.value.trim().toLowerCase();
-            const phone = password.value.trim();
+            const inputValue = username.value.trim();
+            const email = inputValue.toLowerCase();
+            const name = inputValue.trim();
 
-            if (email === 'admin@example.com' && phone === '0712345678') {
+            if (!inputValue) {
+                formMessage.textContent = 'Please enter your email or name.';
+                return;
+            }
+
+            if (email === 'admin@example.com') {
                 localStorage.setItem('josephRole', 'admin');
                 localStorage.setItem('josephLoggedIn', 'true');
                 window.location.href = 'file.html';
                 return;
             }
 
-            if (email === 'user@example.com' && phone === '0723456789') {
+            const savedUsers = JSON.parse(localStorage.getItem('josephUsers') || '[]');
+            const matchedUser = savedUsers.find(function (user) {
+                return user.email === email || user.name === name;
+            });
+
+            if (matchedUser) {
                 localStorage.setItem('josephRole', 'user');
                 localStorage.setItem('josephLoggedIn', 'true');
                 window.location.href = 'file.html';
                 return;
             }
 
-            formMessage.textContent = 'Invalid email or phone password.';
+            formMessage.textContent = 'No account found for that email or name.';
+        });
+
+        signupForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const newName = signupName.value.trim();
+            const newEmail = signupEmail.value.trim().toLowerCase();
+
+            if (!newName || !newEmail) {
+                signupMessage.textContent = 'Please enter both your name and email.';
+                return;
+            }
+
+            const savedUsers = JSON.parse(localStorage.getItem('josephUsers') || '[]');
+            const exists = savedUsers.some(function (user) {
+                return user.email === newEmail || user.name === newName;
+            });
+
+            if (exists) {
+                signupMessage.textContent = 'This email already has an account.';
+                return;
+            }
+
+            savedUsers.push({ name: newName, email: newEmail });
+            localStorage.setItem('josephUsers', JSON.stringify(savedUsers));
+            signupMessage.textContent = 'Account created successfully. You can now log in.';
+            signupName.value = '';
+            signupEmail.value = '';
         });
     </script>
 </body>
